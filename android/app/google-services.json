@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "826656382445",
+    "project_id": "finger-on-app-7649f",
+    "storage_bucket": "finger-on-app-7649f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826656382445:android:9f3dd0202865d845b3dbe4",
+        "android_client_info": {
+          "package_name": "com.example.finger_on_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826656382445-mqd8j4tkpgojilaij267746eentroooi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnA47fysfoo4SwDscTYxbhht19BoSpoeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826656382445-mqd8j4tkpgojilaij267746eentroooi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
