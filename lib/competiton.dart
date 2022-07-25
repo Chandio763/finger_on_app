@@ -2,34 +2,46 @@
 import 'dart:convert';
 
 class Competition {
-  String winner;
   int count;
+  String startDateTime;
+  String name;
+  String winnerWallet;
   Competition({
-    required this.winner,
     required this.count,
+    required this.startDateTime,
+    required this.name,
+    required this.winnerWallet,
   });
 
   Competition copyWith({
-    String? winner,
     int? count,
+    String? startDateTime,
+    String? name,
+    String? winnerWallet,
   }) {
     return Competition(
-      winner: winner ?? this.winner,
       count: count ?? this.count,
+      startDateTime: startDateTime ?? this.startDateTime,
+      name: name ?? this.name,
+      winnerWallet: winnerWallet ?? this.winnerWallet,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'winner': winner,
       'count': count,
+      'startDateTime': startDateTime,
+      'name': name,
+      'winnerWallet': winnerWallet,
     };
   }
 
   factory Competition.fromMap(Map<String, dynamic> map) {
     return Competition(
-      winner: map['winner'] as String,
       count: map['count'] as int,
+      startDateTime: map['startDateTime'] ?? '',
+      name: map['name'] as String,
+      winnerWallet: map['winnerWallet'] as String,
     );
   }
 
@@ -39,15 +51,25 @@ class Competition {
       Competition.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Competition(winner: $winner, count: $count)';
+  String toString() {
+    return 'Competition(count: $count, startDateTime: $startDateTime, name: $name, winnerWallet: $winnerWallet)';
+  }
 
   @override
   bool operator ==(covariant Competition other) {
     if (identical(this, other)) return true;
 
-    return other.winner == winner && other.count == count;
+    return other.count == count &&
+        other.startDateTime == startDateTime &&
+        other.name == name &&
+        other.winnerWallet == winnerWallet;
   }
 
   @override
-  int get hashCode => winner.hashCode ^ count.hashCode;
+  int get hashCode {
+    return count.hashCode ^
+        startDateTime.hashCode ^
+        name.hashCode ^
+        winnerWallet.hashCode;
+  }
 }

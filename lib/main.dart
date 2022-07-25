@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:finger_on_app/competition_page.dart';
 import 'package:finger_on_app/competiton.dart';
 import 'package:finger_on_app/firebase_utils.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,49 +44,43 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text('Finger on App'),
       ),
-      body: Container(
+      body: SizedBox(
         height: size.height,
         width: size.width,
-        color: Colors.green,
+        //color: Colors.green,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: FirebaseUtils.getLocations,
-                builder: (ctx, snapshot) {
-                  if (snapshot.hasData) {
-                    var locationsList = snapshot.data!.docs.map((e) {
-                      return Competition.fromMap(e.data());
-                    }).toList();
-                    var listOfDocLocation = snapshot.data!.docs;
-                    return GestureDetector(
-                      onPanStart: (DragStartDetails details) {
-                        FirebaseUtils.updateUser(
-                            competition: Competition(
-                                winner: '', count: locationsList[0].count + 1),
-                            docRef: listOfDocLocation[0].reference);
+          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: FirebaseUtils.getLocations,
+            builder: (ctx, snapshot) {
+              if (snapshot.hasData) {
+                var competitionsList = snapshot.data!.docs.map((e) {
+                  return Competition.fromMap(e.data());
+                }).toList();
+                var listOfDocLocation = snapshot.data!.docs;
+                return ListView.builder(
+                  itemCount: competitionsList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onTap: () {
+                        //Move To Competition Page
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CompetitionPage(
+                              competition: competitionsList[index],
+                              docRef: listOfDocLocation[index].reference,
+                              docId: listOfDocLocation[index].id),
+                        ));
                       },
-                      onPanEnd: (details) {
-                        FirebaseUtils.updateUser(
-                            competition: Competition(
-                                winner: '', count: locationsList[0].count - 1),
-                            docRef: listOfDocLocation[0].reference);
-                      },
-                      child: Container(
-                        height: 500,
-                        width: 500,
-                        color: Colors.green,
-                        child: Text(
-                            'You have pushed the Screen ${locationsList[0].count}'),
-                      ),
+                      title: Text(competitionsList[index].name),
+                      trailing: const Icon(Icons.arrow_forward_ios_outlined),
                     );
-                  } else {
-                    return const Text('No Competition');
-                  }
-                },
-              ),
-            ],
+                  },
+                );
+              } else {
+                return const CircularProgressIndicator(
+                  color: Colors.green,
+                );
+              }
+            },
           ),
         ),
       ),
