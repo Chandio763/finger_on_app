@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:finger_on_app/competiton.dart';
+import 'package:finger_on_app/model/competiton.dart';
 import 'package:flutter/material.dart';
 
 class CompetitionPage extends StatefulWidget {
@@ -18,6 +18,8 @@ class CompetitionPage extends StatefulWidget {
 }
 
 class _CompetitionPageState extends State<CompetitionPage> {
+  int lastCount = 0;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -44,8 +46,10 @@ class _CompetitionPageState extends State<CompetitionPage> {
                       children: [
                         Text('Total Count: ${compt.count}'),
                         GestureDetector(
-                          onPanStart: (details) {
+                          onLongPressStart: (details) {
                             //if (details.sourceTimeStamp!.inSeconds > 2) {
+                            print('true touched 2 sec');
+                            lastCount = compt.count;
                             Competition comp = Competition(
                                 count: compt.count + 1,
                                 startDateTime: widget.competition.startDateTime,
@@ -53,17 +57,23 @@ class _CompetitionPageState extends State<CompetitionPage> {
                                 winnerWallet: widget.competition.winnerWallet);
                             widget.docRef.update(comp.toMap());
                             // } else {
-                            //   ScaffoldMessenger.of(context)
-                            //       .showSnackBar(SnackBar(content: Text('Less than 2')));
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //       SnackBar(content: Text('Less than 2')));
                             // }
                           },
-                          onPanEnd: (details) {
+                          onLongPressEnd: (details) {
+                            //if (details. != null) {
+                            print('true velocity 2 sec');
                             Competition comp = Competition(
                                 count: compt.count - 1,
                                 startDateTime: widget.competition.startDateTime,
                                 name: widget.competition.name,
                                 winnerWallet: widget.competition.winnerWallet);
                             widget.docRef.update(comp.toMap());
+                            // } else {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //       SnackBar(content: Text('Less than 2')));
+                            // }
                           },
                           child: Container(
                             height: size.height * 0.7,
