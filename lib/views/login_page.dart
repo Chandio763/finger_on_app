@@ -4,6 +4,7 @@ import 'package:finger_on_app/constants.dart';
 import 'package:finger_on_app/model/user_model.dart';
 import 'package:finger_on_app/services/firebase_utils.dart';
 import 'package:finger_on_app/views/Signup.dart';
+import 'package:finger_on_app/views/dashboard.dart';
 import 'package:finger_on_app/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,7 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   bool isPasswordVisible = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  bool isAdmin = false;
+  String loginText = 'Login as Admin';
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -123,43 +125,84 @@ class _LoginPageState extends State<LoginPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  var res = await FirebaseUtils.validateUser(
-                    email: emailController.text,
-                    password: passwordController.text,
-                  );
-                  if (res['isValid']) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.white,
-                        dismissDirection: DismissDirection.startToEnd,
-                        padding: EdgeInsets.all(8),
-                        duration: Duration(seconds: 1),
-                        content: SizedBox(
-                          height: 40,
-                          child: Center(
-                            child: Text(
-                              'Login Successful',
-                              style: TextStyle(color: Colors.green),
+                  if (isAdmin) {
+                    var res = await FirebaseUtils.validateAdmin(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                    if (res['isValid']) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          backgroundColor: Colors.white,
+                          dismissDirection: DismissDirection.startToEnd,
+                          padding: EdgeInsets.all(8),
+                          duration: Duration(seconds: 1),
+                          content: SizedBox(
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                'Login Successful',
+                                style: TextStyle(color: Colors.green),
+                              ),
                             ),
-                          ),
-                        )));
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const MyHomePage(),
-                    ));
+                          )));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AdminDashboard(),
+                      ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          backgroundColor: Colors.white,
+                          dismissDirection: DismissDirection.startToEnd,
+                          padding: EdgeInsets.all(8),
+                          duration: Duration(seconds: 1),
+                          content: SizedBox(
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                'Invalid Credentials',
+                                style: TextStyle(color: Colors.green),
+                              ),
+                            ),
+                          )));
+                    }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.white,
-                        dismissDirection: DismissDirection.startToEnd,
-                        padding: EdgeInsets.all(8),
-                        duration: Duration(seconds: 1),
-                        content: SizedBox(
-                          height: 40,
-                          child: Center(
-                            child: Text(
-                              'Invalid Credentials',
-                              style: TextStyle(color: Colors.green),
+                    var res = await FirebaseUtils.validateUser(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                    if (res['isValid']) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          backgroundColor: Colors.white,
+                          dismissDirection: DismissDirection.startToEnd,
+                          padding: EdgeInsets.all(8),
+                          duration: Duration(seconds: 1),
+                          content: SizedBox(
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                'Login Successful',
+                                style: TextStyle(color: Colors.green),
+                              ),
                             ),
-                          ),
-                        )));
+                          )));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const MyHomePage(),
+                      ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          backgroundColor: Colors.white,
+                          dismissDirection: DismissDirection.startToEnd,
+                          padding: EdgeInsets.all(8),
+                          duration: Duration(seconds: 1),
+                          content: SizedBox(
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                'Invalid Credentials',
+                                style: TextStyle(color: Colors.green),
+                              ),
+                            ),
+                          )));
+                    }
                   }
                 },
                 child: Container(
@@ -168,17 +211,38 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
-                  child: const Center(
+                  child: Center(
                       child: Text(
-                    'Login',
-                    style: TextStyle(
+                    isAdmin ? 'Login as Admin' : 'Login as User',
+                    style: const TextStyle(
                         color: Colors.green,
                         fontSize: 17,
                         fontWeight: FontWeight.w700),
                   )),
                 ),
               ),
-              const Expanded(child: SizedBox())
+              GestureDetector(
+                onTap: () {
+                  if (isAdmin) {
+                    loginText = 'Login as Admin';
+                    isAdmin = false;
+                    setState(() {});
+                  } else {
+                    loginText = 'Login as User';
+                    isAdmin = true;
+                    setState(() {});
+                  }
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Text(loginText,
+                      style: TextStyle(
+                          color: Colors.white,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+              const Expanded(child: SizedBox()),
             ],
           ),
         ),

@@ -38,7 +38,7 @@ class Competition {
 
   factory Competition.fromMap(Map<String, dynamic> map) {
     return Competition(
-      count: map['count'] as int,
+      count: map['count'] ?? 0,
       startDateTime: map['startDateTime'] ?? '',
       name: map['name'] as String,
       winnerWallet: map['winnerWallet'] as String,

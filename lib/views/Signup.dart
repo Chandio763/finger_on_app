@@ -114,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       border: OutlineInputBorder(borderSide: BorderSide.none),
                       focusedBorder:
                           OutlineInputBorder(borderSide: BorderSide.none),
-                      hintText: 'Wallet Address',
+                      hintText: 'TRC-20 USDT ADDRESS',
                       hintStyle: TextStyle(color: Colors.white70)),
                 ),
               ),

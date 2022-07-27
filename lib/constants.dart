@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 const String userCollection = 'UsersCollection';
+const String adminsCollection = 'AdminsCollection';
+const String competitionCollection = 'Competitions';
+
 const int greenPrimaryValue = 0xFF0C9359;
 
 const MaterialColor primaryGreen = MaterialColor(
