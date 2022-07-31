@@ -1,4 +1,6 @@
-import 'package:finger_on_app/views/admin_homepage.dart';
+import 'package:finger_on_app/views/competition_page.dart';
+import 'package:finger_on_app/views/home_page.dart';
+import 'package:finger_on_app/views/user_list.dart';
 import 'package:finger_on_app/views/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +35,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MyHomePage(isAdmin: true),
+                    ));
+                  },
                   tileColor: Colors.green.shade100,
                   iconColor: Colors.green,
                   title: const Text('Competitions'),
@@ -43,20 +50,36 @@ class _AdminDashboardState extends State<AdminDashboard> {
               child: ListTile(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AdminsHomePage(),
+                      builder: (context) => const AppUsers(isApproved: true),
                     ));
                   },
                   tileColor: Colors.green.shade100,
                   iconColor: Colors.green,
-                  title: const Text('All User'),
+                  title: const Text('Approved User'),
                   trailing: const Icon(Icons.arrow_forward_ios_rounded)),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AppUsers(isApproved: false),
+                    ));
+                  },
                   tileColor: Colors.green.shade100,
                   iconColor: Colors.green,
                   title: const Text('Pending Users'),
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                  onTap: () {
+                    //Winners List
+                  },
+                  tileColor: Colors.green.shade100,
+                  iconColor: Colors.green,
+                  title: const Text('Winners'),
                   trailing: const Icon(Icons.arrow_forward_ios_rounded)),
             )
           ],

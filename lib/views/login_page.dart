@@ -185,8 +185,26 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           )));
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const MyHomePage(),
+                        builder: (context) => const MyHomePage(isAdmin: false),
                       ));
+                      // } else if (res['isValid'] && !res['isApproved']) {
+                      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      //       backgroundColor: Colors.white,
+                      //       dismissDirection: DismissDirection.startToEnd,
+                      //       padding: EdgeInsets.all(8),
+                      //       //duration: Duration(seconds: 1),
+                      //       content: SizedBox(
+                      //         height: 40,
+                      //         child: Center(
+                      //           child: Text(
+                      //             'Logged In, Account is pending, Please share amount at given Wallet to be approved',
+                      //             style: TextStyle(color: Colors.green),
+                      //           ),
+                      //         ),
+                      //       )));
+                      //   Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => const MyHomePage(isAdmin: false),
+                      //   ));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           backgroundColor: Colors.white,

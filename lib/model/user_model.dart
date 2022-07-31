@@ -6,11 +6,14 @@ class AppUser {
   String password;
   String walletAddress;
   bool isApproved;
+  String screenShot;
+
   AppUser({
     required this.email,
     required this.password,
     required this.walletAddress,
     required this.isApproved,
+    required this.screenShot,
   });
 
   AppUser copyWith({
@@ -18,12 +21,14 @@ class AppUser {
     String? password,
     String? walletAddress,
     bool? isApproved,
+    String? screenShot,
   }) {
     return AppUser(
       email: email ?? this.email,
       password: password ?? this.password,
       walletAddress: walletAddress ?? this.walletAddress,
       isApproved: isApproved ?? this.isApproved,
+      screenShot: screenShot ?? this.screenShot,
     );
   }
 
@@ -33,6 +38,7 @@ class AppUser {
       'password': password,
       'walletAddress': walletAddress,
       'isApproved': isApproved,
+      'screenShot': screenShot,
     };
   }
 
@@ -42,6 +48,7 @@ class AppUser {
       password: map['password'] as String,
       walletAddress: map['walletAddress'] as String,
       isApproved: map['isApproved'] as bool,
+      screenShot: map['screenShot'] as String,
     );
   }
 
@@ -52,7 +59,7 @@ class AppUser {
 
   @override
   String toString() {
-    return 'AppUser(email: $email, password: $password, walletAddress: $walletAddress, isApproved: $isApproved)';
+    return 'AppUser(email: $email, password: $password, walletAddress: $walletAddress, isApproved: $isApproved, screenShot: $screenShot)';
   }
 
   @override
@@ -62,7 +69,8 @@ class AppUser {
     return other.email == email &&
         other.password == password &&
         other.walletAddress == walletAddress &&
-        other.isApproved == isApproved;
+        other.isApproved == isApproved &&
+        other.screenShot == screenShot;
   }
 
   @override
@@ -70,6 +78,7 @@ class AppUser {
     return email.hashCode ^
         password.hashCode ^
         walletAddress.hashCode ^
-        isApproved.hashCode;
+        isApproved.hashCode ^
+        screenShot.hashCode;
   }
 }

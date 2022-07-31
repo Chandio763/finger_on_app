@@ -2,6 +2,7 @@ import 'package:finger_on_app/constants.dart';
 import 'package:finger_on_app/model/user_model.dart';
 import 'package:finger_on_app/views/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../services/firebase_utils.dart';
@@ -146,14 +147,57 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  FirebaseUtils.addUser(AppUser(
-                      email: emailController.text,
-                      password: passwordController.text,
-                      walletAddress: walletController.text,
-                      isApproved: false));
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ));
+                  if (emailController.text.isNotEmpty &&
+                      passwordController.text.isNotEmpty &&
+                      walletController.text.isNotEmpty) {
+                    FirebaseUtils.addUser(AppUser(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        walletAddress: walletController.text,
+                        screenShot: '',
+                        isApproved: false));
+                    var dialog = AlertDialog(
+                      title: const Text('Pay for Play'),
+                      content: const Text(
+                          'You have to pay us Certain Amount at Our Wallet Address (TP1d5wzkY18Y9jVnmtDanPMcmHAx4WAFXK) to be approved and play Finger on App'),
+                      actions: [
+                        MaterialButton(
+                            color: primaryGreen,
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              ));
+                            },
+                            child: const Text('Ok')),
+                        MaterialButton(
+                            color: primaryGreen,
+                            onPressed: () {
+                              Clipboard.setData(const ClipboardData(
+                                  text: "TP1d5wzkY18Y9jVnmtDanPMcmHAx4WAFXK"));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Copied to Clipboard')));
+                            },
+                            child: const Text('Copy to Clipboard')),
+                      ],
+                    );
+                    showDialog(context: context, builder: (context) => dialog);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.white,
+                        dismissDirection: DismissDirection.startToEnd,
+                        padding: EdgeInsets.all(8),
+                        //duration: Duration(seconds: 1),
+                        content: SizedBox(
+                          height: 40,
+                          child: Center(
+                            child: Text(
+                              'Something is Missing, Please Enter Complete Details',
+                              style: TextStyle(color: Colors.green),
+                            ),
+                          ),
+                        )));
+                  }
                 },
                 child: Container(
                   height: 50,

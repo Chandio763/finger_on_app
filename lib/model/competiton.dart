@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class Competition {
   int count;
-  String startDateTime;
+  int startDateTime;
   String name;
   String winnerWallet;
   Competition({
@@ -15,7 +15,7 @@ class Competition {
 
   Competition copyWith({
     int? count,
-    String? startDateTime,
+    int? startDateTime,
     String? name,
     String? winnerWallet,
   }) {
@@ -38,8 +38,8 @@ class Competition {
 
   factory Competition.fromMap(Map<String, dynamic> map) {
     return Competition(
-      count: map['count'] ?? 0,
-      startDateTime: map['startDateTime'] ?? '',
+      count: map['count'] as int,
+      startDateTime: map['startDateTime'] as int,
       name: map['name'] as String,
       winnerWallet: map['winnerWallet'] as String,
     );

@@ -1,8 +1,12 @@
+import 'package:finger_on_app/model/user_model.dart';
 import 'package:flutter/material.dart';
 
 const String userCollection = 'UsersCollection';
 const String adminsCollection = 'AdminsCollection';
 const String competitionCollection = 'Competitions';
+const String winnerCollection = 'Winners';
+AppUser? user;
+var userRef;
 
 const int greenPrimaryValue = 0xFF0C9359;
 
