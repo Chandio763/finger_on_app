@@ -7,6 +7,7 @@ import 'package:finger_on_app/views/add_competition.dart';
 import 'package:finger_on_app/views/competition_page.dart';
 import 'package:finger_on_app/model/competiton.dart';
 import 'package:finger_on_app/services/firebase_utils.dart';
+import 'package:finger_on_app/views/wating.dart';
 import 'package:flutter/material.dart';
 
 import 'login_page.dart';
@@ -116,7 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   onPressed: () {
                                     if (!widget.isAdmin) {
                                       if (user != null && user!.isApproved) {
-                                        Navigator.of(context)
+
+                                        if (competitionsList[index].startDateTime <DateTime.now().millisecondsSinceEpoch) {
+                                           Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => CompetitionPage(
                                               competition:
@@ -126,6 +129,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                               docId:
                                                   listOfDocLocation[index].id),
                                         ));
+                                        }else{
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                            return Waiting(remainingTime: competitionsList[index].startDateTime,);
+                                          },));
+                                        }
+                                       
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(const SnackBar(

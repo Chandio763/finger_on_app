@@ -1,11 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finger_on_app/constants.dart';
 import 'package:finger_on_app/provider/image_provider.dart';
-import 'package:finger_on_app/views/competition_page.dart';
-import 'package:finger_on_app/model/competiton.dart';
-import 'package:finger_on_app/services/firebase_utils.dart';
 import 'package:finger_on_app/views/login_page.dart';
-import 'package:finger_on_app/views/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
