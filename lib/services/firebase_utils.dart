@@ -6,7 +6,9 @@ import 'package:finger_on_app/model/winner.dart';
 
 class FirebaseUtils {
   static Stream<QuerySnapshot<Map<String, dynamic>>> get getCompetitions =>
-      FirebaseFirestore.instance.collection('Competitions').snapshots();
+      FirebaseFirestore.instance.collection('Competitions')
+      .where('startDateTime',isGreaterThan: DateTime.now().millisecondsSinceEpoch)
+      .snapshots();
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> get getWinner =>
       FirebaseFirestore.instance.collection(winnerCollection).snapshots();

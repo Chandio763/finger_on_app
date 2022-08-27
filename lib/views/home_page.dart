@@ -115,26 +115,41 @@ class _MyHomePageState extends State<MyHomePage> {
                                     'Start at: ${startTime.toString().substring(0, 16)}'),
                                 trailing: IconButton(
                                   onPressed: () {
+                                    var remainingTime =  
+                                        competitionsList[index].startDateTime-DateTime.now()
+                                            .millisecondsSinceEpoch;
+                                    print('remaining time in miliseconds is $remainingTime');
+                                    print('competetion time is  ${competitionsList[index].startDateTime}');
                                     if (!widget.isAdmin) {
                                       if (user != null && user!.isApproved) {
-
-                                        if (competitionsList[index].startDateTime <DateTime.now().millisecondsSinceEpoch) {
-                                           Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => CompetitionPage(
-                                              competition:
-                                                  competitionsList[index],
-                                              docRef: listOfDocLocation[index]
-                                                  .reference,
-                                              docId:
-                                                  listOfDocLocation[index].id),
-                                        ));
-                                        }else{
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                            return Waiting(remainingTime: competitionsList[index].startDateTime,);
-                                          },));
+                                        //1 minute is equal to 6000 
+                                        if (60000 > remainingTime &&
+                                            remainingTime > 0) {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                CompetitionPage(
+                                                    competition:
+                                                        competitionsList[index],
+                                                    docRef:
+                                                        listOfDocLocation[index]
+                                                            .reference,
+                                                    docId:
+                                                        listOfDocLocation[index]
+                                                            .id),
+                                          ));
+                                        } else {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              // return Waiting(remainingTime: competitionsList[index].startDateTime,);
+                                              return WaitingTime(
+                                                endTime: competitionsList[index]
+                                                    .startDateTime,
+                                              );
+                                            },
+                                          ));
                                         }
-                                       
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(const SnackBar(
