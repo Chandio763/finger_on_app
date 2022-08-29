@@ -27,7 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: widget.isAdmin ? true : false,
-        title: const Text('Finger on App'),
+        title: const Text('Available Competitions'),
         actions: [
           IconButton(
               onPressed: () {
@@ -46,44 +46,24 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(!widget.isAdmin ? Icons.logout_rounded : Icons.add))
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return imagePickerDialog(context);
-            },
-          );
-        },
-        child: Container(
-          height: 45,
-          width: size.width * 0.9,
-          decoration: BoxDecoration(
-              color: primaryGreen, borderRadius: BorderRadius.circular(25)),
-          child: const Center(
-            child: Text('Upload Paid Screenshot'),
-          ),
-        ),
-      ),
       body: SizedBox(
         height: size.height,
         width: size.width,
         //color: Colors.green,
         child: Column(
           children: [
-            user != null
-                ? user!.isApproved
-                    ? const SizedBox()
-                    : const Padding(
-                        padding:
-                            EdgeInsets.only(top: 12.0, left: 12, right: 12),
-                        child: Text(
-                          'Your Account is Pending, Pay us at "TP1d5wzkY18Y9jVnmtDanPMcmHAx4WAFXK" and upload screenshot below to participate',
-                          style: TextStyle(fontSize: 12, color: Colors.red),
-                        ),
-                      )
-                : const SizedBox(),
+            // user != null
+            //     ? user!.isApproved
+            //         ? const SizedBox()
+            //         : const Padding(
+            //             padding:
+            //                 EdgeInsets.only(top: 12.0, left: 12, right: 12),
+            //             child: Text(
+            //               'Your Account is Pending, Pay us at "TP1d5wzkY18Y9jVnmtDanPMcmHAx4WAFXK" and upload screenshot below to participate',
+            //               style: TextStyle(fontSize: 12, color: Colors.red),
+            //             ),
+            //           )
+            //     : const SizedBox(),
             SizedBox(
               height: size.height * 0.8,
               width: size.width,
@@ -115,14 +95,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                     'Start at: ${startTime.toString().substring(0, 16)}'),
                                 trailing: IconButton(
                                   onPressed: () {
-                                    var remainingTime =  
-                                        competitionsList[index].startDateTime-DateTime.now()
-                                            .millisecondsSinceEpoch;
-                                    print('remaining time in miliseconds is $remainingTime');
-                                    print('competetion time is  ${competitionsList[index].startDateTime}');
+                                    var remainingTime = competitionsList[index]
+                                            .startDateTime -
+                                        DateTime.now().millisecondsSinceEpoch;
+                                    print(
+                                        'remaining time in miliseconds is $remainingTime');
+                                    print(
+                                        'competetion time is  ${competitionsList[index].startDateTime}');
                                     if (!widget.isAdmin) {
                                       if (user != null && user!.isApproved) {
-                                        //1 minute is equal to 6000 
+                                        //1 minute is equal to 6000
                                         if (60000 > remainingTime &&
                                             remainingTime > 0) {
                                           Navigator.of(context)

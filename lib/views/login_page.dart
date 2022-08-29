@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:finger_on_app/constants.dart';
-import 'package:finger_on_app/model/user_model.dart';
 import 'package:finger_on_app/services/firebase_utils.dart';
 import 'package:finger_on_app/views/Signup.dart';
 import 'package:finger_on_app/views/dashboard.dart';
 import 'package:finger_on_app/views/home_page.dart';
+import 'package:finger_on_app/views/unapproved_userview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   bool isAdmin = false;
   String loginText = 'Login as Admin';
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -184,27 +185,19 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           )));
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const MyHomePage(isAdmin: false),
-                      ));
-                      // } else if (res['isValid'] && !res['isApproved']) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      //       backgroundColor: Colors.white,
-                      //       dismissDirection: DismissDirection.startToEnd,
-                      //       padding: EdgeInsets.all(8),
-                      //       //duration: Duration(seconds: 1),
-                      //       content: SizedBox(
-                      //         height: 40,
-                      //         child: Center(
-                      //           child: Text(
-                      //             'Logged In, Account is pending, Please share amount at given Wallet to be approved',
-                      //             style: TextStyle(color: Colors.green),
-                      //           ),
-                      //         ),
-                      //       )));
-                      //   Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) => const MyHomePage(isAdmin: false),
-                      //   ));
+                      if (res['isApproved']) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const MyHomePage(isAdmin: false)),
+                            (route) => false);
+                      } else {
+                        //If Not Approved
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => UnApprovedScreen()),
+                            (route) => false);
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           backgroundColor: Colors.white,
