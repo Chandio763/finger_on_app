@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
             primarySwatch: primaryGreen,
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: primaryGreen,
             )),
         home: const LoginPage(),
